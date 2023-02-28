@@ -1,10 +1,11 @@
 package controllers
 
 import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents}
+
 import javax.inject.Inject
 import javax.inject.Singleton
 import scala.collection.mutable
-import models.Book
+import models.{Book, NewBook}
 import play.api.libs.json._
 
 @Singleton
@@ -12,6 +13,7 @@ class LibraryController @Inject()(val controllerComponents: ControllerComponents
   extends BaseController {
 
   implicit val bookListJson = Json.format[Book]
+  implicit val newBookJson = Json.format[NewBook]
 
   val bookList = new mutable.ListBuffer[Book]()
   bookList += Book(1, "Neil deGrasse Tyson", "Astrophysics for People in a Hurry", true)
@@ -55,5 +57,19 @@ class LibraryController @Inject()(val controllerComponents: ControllerComponents
     } else {
       NoContent
     }
+  }
+
+  def addNew(): Action[JsValue] = Action(parse.json) { implicit request =>
+    request.body.validate[NewBook].asOpt
+      .fold {
+        BadRequest("No item added")
+      } {
+        response =>
+          val nextId = bookList.map(_.id).max + 1
+          val newItemAdded = Book(nextId, response.title, response.author, false)
+          bookList += newItemAdded
+          println(response)
+          Ok(Json.toJson(bookList))
+      }
   }
 }

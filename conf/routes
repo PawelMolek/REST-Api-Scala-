@@ -2,3 +2,4 @@ GET           /books                controllers.LibraryController.getAll
 GET           /books/:bookId        controllers.LibraryController.getById(bookId:Int)
 PUT           /books/:bookId        controllers.LibraryController.setAvailability(bookId: Int)
 DELETE        /books/:bookId        controllers.LibraryController.removeById(bookId: Int)
+POST          /books/add            controllers.LibraryController.addNew
