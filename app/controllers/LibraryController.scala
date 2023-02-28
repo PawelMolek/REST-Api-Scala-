@@ -34,16 +34,4 @@ class LibraryController @Inject()(val controllerComponents: ControllerComponents
       case None => NotFound
     }
   }
-
-  def setAvailability(bookId: Int): Action[AnyContent] = Action {
-    val bookIndex = bookList.indexWhere(_.id == bookId)
-    if (bookIndex >= 0) {
-      val book = bookList(bookIndex)
-      val updatedBook = book.copy(isAvailable = !book.isAvailable)
-      bookList.update(bookIndex, updatedBook)
-      Ok(Json.toJson(updatedBook))
-    } else {
-      NoContent
-    }
-  }
 }

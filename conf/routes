@@ -1,3 +1,2 @@
-GET        /books                        controllers.LibraryController.getAll
-GET        /books/:bookId                controllers.LibraryController.getById(bookId:Int)
-PUT        /books/:bookId/details        controllers.LibraryController.setAvailability(bookId: Int)
+GET        /books                controllers.LibraryController.getAll
+GET        /books/:bookId        controllers.LibraryController.getById(bookId:Int)
