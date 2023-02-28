@@ -26,4 +26,12 @@ class LibraryController @Inject()(val controllerComponents: ControllerComponents
       Ok(Json.toJson(bookList))
     }
   }
+
+  def getById(bookId: Int): Action[AnyContent] = Action {
+    val book = bookList.find(_.id == bookId)
+    book match {
+      case Some(value) => Ok(Json.toJson(value))
+      case None => NotFound
+    }
+  }
 }
