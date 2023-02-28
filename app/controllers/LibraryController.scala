@@ -46,4 +46,14 @@ class LibraryController @Inject()(val controllerComponents: ControllerComponents
       NoContent
     }
   }
+
+  def removeById(bookId: Int): Action[AnyContent] = Action {
+    val bookIndex = bookList.indexWhere(_.id == bookId)
+    if (bookIndex >= 0) {
+      val deletedBook = bookList.remove(bookIndex)
+      Ok(Json.toJson(deletedBook))
+    } else {
+      NoContent
+    }
+  }
 }
